@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jogo da Memória com Cores</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .controls {
+            margin: 10px 0;
+        }
+        .controls button {
+            margin-right: 10px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .grid-container {
+            position: relative;
+            background-size: cover;
+            background-repeat: no-repeat;
+            transform-origin: top;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #373737;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 520px);
+            grid-template-rows: repeat(3, 520px);
+            gap: 30px;
+        }
+        .block {
+            width: 520px;
+            height: 520px;
+            position: relative;
+        }
+        .color-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+        .color-button {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            border: 1px solid black;
+        }
+        .color-button[data-color="amarelo"] {
+            background-color: #895F1E;
+        }
+        .color-button[data-color="azul"] {
+            background-color: #2C4C61;
+        }
+        .color-button[data-color="rosa"] {
+            background-color: #ED6FA5;
+        }
+        .color-button[data-color="roxo"] {
+            background-color: #966FA5;
+        }
+        .color-button[data-color="verde"] {
+            background-color: #70B280;
+        }
+        .color-button[data-color="vermelho"] {
+            background-color: #C84D39;
+        }
+        .overlay-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            object-fit: contain;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+<div class="controls">
+    <button onclick="setScale(0.5)">50%</button>
+    <button onclick="setScale(0.75)">75%</button>
+    <button onclick="setScale(1)">100%</button>
+    <button onclick="resetImages()">Reset (Space)</button>
+</div>
+
+<div class="grid-container" style="transform: scale(0.5);">
+    <div class="grid">
+        <div class="block" id="block-0">
+            <img src="imgs/background.png" alt="overlay" class="overlay-image" id="overlay-0">
+            <div class="color-buttons">
+                <div class="color-button" data-color="vermelho" onclick="changeColor(0, 'vermelho')"></div>
+                <div class="color-button" data-color="verde" onclick="changeColor(0, 'verde')"></div>
+                <div class="color-button" data-color="amarelo" onclick="changeColor(0, 'amarelo')"></div>
+                <div class="color-button" data-color="rosa" onclick="changeColor(0, 'rosa')"></div>
+                <div class="color-button" data-color="roxo" onclick="changeColor(0, 'roxo')"></div>
+                <div class="color-button" data-color="azul" onclick="changeColor(0, 'azul')"></div>
+            </div>
+        </div>
+        <div class="block" id="block-1">
+            <img src="imgs/background.png" alt="overlay" class="overlay-image" id="overlay-1">
+            <div class="color-buttons">
+                <div class="color-button" data-color="vermelho" onclick="changeColor(1, 'vermelho')"></div>
+                <div class="color-button" data-color="verde" onclick="changeColor(1, 'verde')"></div>
+                <div class="color-button" data-color="amarelo" onclick="changeColor(1, 'amarelo')"></div>
+                <div class="color-button" data-color="rosa" onclick="changeColor(1, 'rosa')"></div>
+                <div class="color-button" data-color="roxo" onclick="changeColor(1, 'roxo')"></div>
+                <div class="color-button" data-color="azul" onclick="changeColor(1, 'azul')"></div>
+            </div>
+        </div>
+        <div class="block" id="block-2">
+            <img src="imgs/background.png" alt="overlay" class="overlay-image" id="overlay-2">
+            <div class="color-buttons">
+                <div class="color-button" data-color="vermelho" onclick="changeColor(2, 'vermelho')"></div>
+                <div class="color-button" data-color="verde" onclick="changeColor(2, 'verde')"></div>
+                <div class="color-button" data-color="amarelo" onclick="changeColor(2, 'amarelo')"></div>
+                <div class="color-button" data-color="rosa" onclick="changeColor(2, 'rosa')"></div>
+                <div class="color-button" data-color="roxo" onclick="changeColor(2, 'roxo')"></div>
+                <div class="color-button" data-color="azul" onclick="changeColor(2, 'azul')"></div>
+            </div>
+        </div>
+        <div class="block" id="block-3">
+            <img src="imgs/background.png" alt="overlay" class="overlay-image" id="overlay-3">
+            <div class="color-buttons">
+                <div class="color-button" data-color="vermelho" onclick="changeColor(3, 'vermelho')"></div>
+                <div class="color-button" data-color="verde" onclick="changeColor(3, 'verde')"></div>
+                <div class="color-button" data-color="amarelo" onclick="changeColor(3, 'amarelo')"></div>
+                <div class="color-button" data-color="rosa" onclick="changeColor(3, 'rosa')"></div>
+                <div class="color-button" data-color="roxo" onclick="changeColor(3, 'roxo')"></div>
+                <div class="color-button" data-color="azul" onclick="changeColor(3, 'azul')"></div>
+            </div>
+        </div>
+        <div class="block" id="block-4">
+            <img src="imgs/background.png" alt="overlay" class="overlay-image" id="overlay-4">
+            <div class="color-buttons">
+                <div class="color-button" data-color="vermelho" onclick="changeColor(4, 'vermelho')"></div>
+                <div class="color-button" data-color="verde" onclick="changeColor(4, 'verde')"></div>
+                <div class="color-button" data-color="amarelo" onclick="changeColor(4, 'amarelo')"></div>
+                <div class="color-button" data-color="rosa" onclick="changeColor(4, 'rosa')"></div>
+                <div class="color-button" data-color="roxo" onclick="changeColor(4, 'roxo')"></div>
+                <div class="color-button" data-color="azul" onclick="changeColor(4, 'azul')"></div>
+            </div>
+        </div>
+        <div class="block" id="block-5">
+            <img src="imgs/background.png" alt="overlay" class="overlay-image" id="overlay-5">
+            <div class="color-buttons">
+                <div class="color-button" data-color="vermelho" onclick="changeColor(5, 'vermelho')"></div>
+                <div class="color-button" data-color="verde" onclick="changeColor(5, 'verde')"></div>
+                <div class="color-button" data-color="amarelo" onclick="changeColor(5, 'amarelo')"></div>
+                <div class="color-button" data-color="rosa" onclick="changeColor(5, 'rosa')"></div>
+                <div class="color-button" data-color="roxo" onclick="changeColor(5, 'roxo')"></div>
+                <div class="color-button" data-color="azul" onclick="changeColor(5, 'azul')"></div>
+            </div>
+        </div>
+        <div class="block" id="block-6">
+            <img src="imgs/background.png" alt="overlay" class="overlay-image" id="overlay-6">
+            <div class="color-buttons">
+                <div class="color-button" data-color="vermelho" onclick="changeColor(6, 'vermelho')"></div>
+                <div class="color-button" data-color="verde" onclick="changeColor(6, 'verde')"></div>
+                <div class="color-button" data-color="amarelo" onclick="changeColor(6, 'amarelo')"></div>
+                <div class="color-button" data-color="rosa" onclick="changeColor(6, 'rosa')"></div>
+                <div class="color-button" data-color="roxo" onclick="changeColor(6, 'roxo')"></div>
+                <div class="color-button" data-color="azul" onclick="changeColor(6, 'azul')"></div>
+            </div>
+        </div>
+        <div class="block" id="block-7">
+            <img src="imgs/background.png" alt="overlay" class="overlay-image" id="overlay-7">
+            <div class="color-buttons">
+                <div class="color-button" data-color="vermelho" onclick="changeColor(7, 'vermelho')"></div>
+                <div class="color-button" data-color="verde" onclick="changeColor(7, 'verde')"></div>
+                <div class="color-button" data-color="amarelo" onclick="changeColor(7, 'amarelo')"></div>
+                <div class="color-button" data-color="rosa" onclick="changeColor(7, 'rosa')"></div>
+                <div class="color-button" data-color="roxo" onclick="changeColor(7, 'roxo')"></div>
+                <div class="color-button" data-color="azul" onclick="changeColor(7, 'azul')"></div>
+            </div>
+        </div>
+        <div class="block" id="block-8">
+            <img src="imgs/background.png" alt="overlay" class="overlay-image" id="overlay-8">
+            <div class="color-buttons">
+                <div class="color-button" data-color="vermelho" onclick="changeColor(8, 'vermelho')"></div>
+                <div class="color-button" data-color="verde" onclick="changeColor(8, 'verde')"></div>
+                <div class="color-button" data-color="amarelo" onclick="changeColor(8, 'amarelo')"></div>
+                <div class="color-button" data-color="rosa" onclick="changeColor(8, 'rosa')"></div>
+                <div class="color-button" data-color="roxo" onclick="changeColor(8, 'roxo')"></div>
+                <div class="color-button" data-color="azul" onclick="changeColor(8, 'azul')"></div>
+            </div>
+        </div>
+        <div class="block" id="block-9">
+            <img src="imgs/background.png" alt="overlay" class="overlay-image" id="overlay-9">
+            <div class="color-buttons">
+                <div class="color-button" data-color="vermelho" onclick="changeColor(9, 'vermelho')"></div>
+                <div class="color-button" data-color="verde" onclick="changeColor(9, 'verde')"></div>
+                <div class="color-button" data-color="amarelo" onclick="changeColor(9, 'amarelo')"></div>
+                <div class="color-button" data-color="rosa" onclick="changeColor(9, 'rosa')"></div>
+                <div class="color-button" data-color="roxo" onclick="changeColor(9, 'roxo')"></div>
+                <div class="color-button" data-color="azul" onclick="changeColor(9, 'azul')"></div>
+            </div>
+        </div>
+        <div class="block" id="block-10">
+            <img src="imgs/background.png" alt="overlay" class="overlay-image" id="overlay-10">
+            <div class="color-buttons">
+                <div class="color-button" data-color="vermelho" onclick="changeColor(10, 'vermelho')"></div>
+                <div class="color-button" data-color="verde" onclick="changeColor(10, 'verde')"></div>
+                <div class="color-button" data-color="amarelo" onclick="changeColor(10, 'amarelo')"></div>
+                <div class="color-button" data-color="rosa" onclick="changeColor(10, 'rosa')"></div>
+                <div class="color-button" data-color="roxo" onclick="changeColor(10, 'roxo')"></div>
+                <div class="color-button" data-color="azul" onclick="changeColor(10, 'azul')"></div>
+            </div>
+        </div>
+        <div class="block" id="block-11">
+            <img src="imgs/background.png" alt="overlay" class="overlay-image" id="overlay-11">
+            <div class="color-buttons">
+                <div class="color-button" data-color="vermelho" onclick="changeColor(11, 'vermelho')"></div>
+                <div class="color-button" data-color="verde" onclick="changeColor(11, 'verde')"></div>
+                <div class="color-button" data-color="amarelo" onclick="changeColor(11, 'amarelo')"></div>
+                <div class="color-button" data-color="rosa" onclick="changeColor(11, 'rosa')"></div>
+                <div class="color-button" data-color="roxo" onclick="changeColor(11, 'roxo')"></div>
+                <div class="color-button" data-color="azul" onclick="changeColor(11, 'azul')"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setScale(scale) {
+        document.querySelector('.grid-container').style.transform = `scale(${scale})`;
+    }
+
+    function resetImages() {
+        for (let i = 0; i < 12; i++) {
+            document.getElementById('overlay-' + i).src = 'imgs/background.png';
+        }
+    }
+
+    document.body.onkeydown = function(e) {
+        if (e.key === ' ') {
+            resetImages();
+        }
+    }
+
+    function changeColor(blockIndex, color) {
+        var colors = {
+            'vermelho': 'imgs/vermelho.png',
+            'verde': 'imgs/verde.png',
+            'amarelo': 'imgs/amarelo.png',
+            'rosa': 'imgs/rosa.png',
+            'roxo': 'imgs/roxo.png',
+            'azul': 'imgs/azul.png'
+        };
+        document.getElementById('overlay-' + blockIndex).src = colors[color];
+    }
+</script>
+
+</body>
+</html>

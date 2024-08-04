@@ -12,6 +12,8 @@
             align-items: center;
         }
         .controls {
+            display: flex;
+            align-items: center;
             margin: 10px 0;
         }
         .controls button {
@@ -83,6 +85,12 @@
             object-fit: contain;
             z-index: 1;
         }
+        .twitch-follow a img {
+            width: 80px; /* Tamanho fixo para o ícone */
+            height: 40px;
+            cursor: pointer;
+            margin-left: 10px; /* Espaço entre o ícone e os botões */
+        }
     </style>
 </head>
 <body>
@@ -92,6 +100,11 @@
     <button onclick="setScale(0.75)">75%</button>
     <button onclick="setScale(1)">100%</button>
     <button onclick="resetImages()">Reset (Space)</button>
+    <div class="twitch-follow">
+        <a href="https://www.twitch.tv/godshiryu/" target="_blank">
+            <img src="https://i.ytimg.com/vi/FzHtYs9mB5g/maxresdefault.jpg" alt="Follow on Twitch">
+        </a>
+    </div>
 </div>
 
 <div class="grid-container" style="transform: scale(0.5);">
@@ -230,6 +243,7 @@
         </div>
     </div>
 </div>
+
 
 <script>
     function setScale(scale) {
